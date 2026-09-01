@@ -368,3 +368,219 @@
     transition: none;
   }
 }
+
+@media (max-width: 620px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .container {
+    width: min(100% - 32px, 620px);
+    padding-top: calc(48px + env(safe-area-inset-top));
+  }
+
+  .profile-header {
+    align-items: center;
+    gap: 12px;
+  }
+
+  .profile-header > div:first-child {
+    min-width: 0;
+  }
+
+  .profile-header h1 {
+    font-size: 18px;
+    white-space: nowrap;
+  }
+
+  .profile-header p {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .profile-header .socials {
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    gap: 3px;
+  }
+
+  .profile-header .socials .social-preview-dock,
+  .profile-header .socials .social-preview-dock > .relative.z-10,
+  .profile-header .socials .social-preview-dock a,
+  .profile-header .socials .resume-liquid-button,
+  .profile-header .socials .resume-liquid-button > div,
+  .profile-header .socials .resume-liquid-button > div > div:nth-child(2),
+  .profile-header .socials .resume-liquid-button > div > div:nth-child(2) > div,
+  .profile-header .socials .theme-toggle-skiper {
+    width: 30px;
+    height: 30px;
+  }
+
+  .profile-header .socials .social-preview-dock > .relative.z-10 {
+    gap: 3px;
+  }
+
+  .profile-header .socials .social-preview-dock a,
+  .profile-header .socials .resume-liquid-button,
+  .profile-header .socials .theme-toggle-skiper {
+    flex: 0 0 30px;
+  }
+
+  .profile-header .socials .social-preview-dock a > svg,
+  .profile-header .socials .resume-liquid-button svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  .intro {
+    margin-top: 29px;
+    font-size: 14px;
+  }
+
+  .intro p {
+    margin-bottom: 11px;
+  }
+
+  .interest-block {
+    margin-top: 13px;
+  }
+
+  .interest-block + p {
+    margin-top: 14px;
+  }
+
+  .section {
+    margin-top: 44px;
+  }
+
+  .intro + .section {
+    margin-top: 35px;
+  }
+
+  .section-title {
+    margin-bottom: 11px;
+  }
+
+  .heatmap {
+    padding: 10px;
+  }
+
+  .performance-section .minimal-calendar {
+    width: max-content !important;
+    max-width: 100% !important;
+  }
+
+  .performance-section .minimal-calendar .react-activity-calendar__scroll-container {
+    width: min(100%, calc(100vw - 52px)) !important;
+    overflow-x: auto !important;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+
+  .performance-section .minimal-calendar .react-activity-calendar__calendar {
+    width: auto !important;
+    max-width: none;
+  }
+
+  .experience-card {
+    padding: 17px 16px 19px;
+  }
+
+  .experience-heading h3 {
+    max-width: 24ch;
+    font-size: 14px;
+  }
+
+  .experience-heading p,
+  .experience-card .experience-design-note,
+  .experience-card ul {
+    font-size: 12px;
+  }
+
+  .experience-card ul {
+    line-height: 1.55;
+  }
+
+  .projects-transition {
+    min-height: 560px;
+    margin-right: calc((100% - 100vw) / 2);
+    margin-left: calc((100% - 100vw) / 2);
+    border-radius: 12px;
+    overscroll-behavior: contain;
+  }
+
+  .viscose-world {
+    min-height: 560px;
+  }
+
+  .viscose-center-stats {
+    width: min(86vw, 420px);
+    bottom: 116px;
+    font-size: 11px;
+  }
+
+  .ui-credits {
+    padding: 45px 8px 58px;
+  }
+
+  .ui-credits-links {
+    max-width: 280px;
+    gap: 10px 14px;
+  }
+
+  .social-preview-dock-panel {
+    max-width: calc(100vw - 24px);
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    width: min(100% - 24px, 620px);
+  }
+
+  .profile-header {
+    gap: 8px;
+  }
+
+  .profile-header h1 {
+    font-size: 17px;
+  }
+
+  .profile-header p {
+    font-size: 11px;
+  }
+
+  .profile-header .socials {
+    gap: 1px;
+  }
+
+  .profile-header .socials .social-preview-dock > .relative.z-10 {
+    gap: 1px;
+  }
+
+  .profile-header .socials .social-preview-dock,
+  .profile-header .socials .social-preview-dock > .relative.z-10,
+  .profile-header .socials .social-preview-dock a,
+  .profile-header .socials .resume-liquid-button,
+  .profile-header .socials .resume-liquid-button > div,
+  .profile-header .socials .resume-liquid-button > div > div:nth-child(2),
+  .profile-header .socials .resume-liquid-button > div > div:nth-child(2) > div,
+  .profile-header .socials .theme-toggle-skiper {
+    width: 28px;
+    height: 28px;
+  }
+
+  .profile-header .socials .social-preview-dock a,
+  .profile-header .socials .resume-liquid-button,
+  .profile-header .socials .theme-toggle-skiper {
+    flex-basis: 28px;
+  }
+
+  .profile-header .socials .social-preview-dock a > svg,
+  .profile-header .socials .resume-liquid-button svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
