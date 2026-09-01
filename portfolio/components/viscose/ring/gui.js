@@ -23,10 +23,10 @@ export function mountGui(GUI, { params, state, info, actions }) {
   gui.add(state, "shift", 0, 1, 0.001).listen();
   gui.add({ replay }, "replay");
 
-  
-  
-  
-  
+
+
+
+
   const fit = gui.addFolder("fit");
   const onFit = (k, lo, hi, step, label) =>
     fit.add(params, k, lo, hi, step).name(label).onChange(refit);
@@ -74,7 +74,7 @@ export function mountGui(GUI, { params, state, info, actions }) {
   onMetaFit("tightNameRight", 0, 200, 1, "tight name right");
   onMetaFit("tightMetaWidth", 10, 100, 1, "tight box (vw)");
 
-  
+
   const shape = gui.addFolder("shape");
   shape.add(params, "planeSize", 10, 900, 1).name("plane size");
   shape.add(params, "count", 2, MAX_PLANES, 1);
@@ -87,7 +87,7 @@ export function mountGui(GUI, { params, state, info, actions }) {
   shape.add(params, "imageOffset", 0, 32, 1).name("image offset");
   shape.add(info, "restingGap").listen().disable().name("resting gap");
 
-  
+
   const loader = gui.addFolder("loader");
   loader.add(params, "loaderChase", 0.02, 1, 0.01).name("count speed");
   loader.add(params, "holdAfter", 0, 3, 0.05).name("beat after 100 (s)");
@@ -97,7 +97,7 @@ export function mountGui(GUI, { params, state, info, actions }) {
     .onChange(styleMeta);
   loader.add(params, "loaderOut", 0.05, 3, 0.05).name("fade out (s)");
 
-  
+
   const timing = gui.addFolder("timing");
   timing.add(params, "stagger", 0, 1, 0.005);
   timing.add(params, "launchTime", 0.05, 12, 0.05).onChange(replay);
@@ -119,17 +119,17 @@ export function mountGui(GUI, { params, state, info, actions }) {
   onStage("moveDelay", 0, 15, 0.05, "moveDelay");
   stage.add(params, "moveEase", EASES).onChange(replay);
 
-  
+
   const text = gui.addFolder("text");
   text.add(params, "text").onFinishChange(rebuildText);
   text.add(params, "textSize", 8, 200, 1).onChange(rebuildText);
   text
-    
-    
+
+
     .add(params, "textFont", ["PP Neue Montreal", "Satoshi", "Geist"])
     .name("family")
     .onChange(rebuildText);
-  text.add(params, "textWeight", { Light: 300, Regular: 400 }).onChange(rebuildText); 
+  text.add(params, "textWeight", { Light: 300, Regular: 400 }).onChange(rebuildText);
   text
     .add(params, "textTracking", -0.1, 0.4, 0.005)
     .name("tracking (em)")
@@ -142,11 +142,11 @@ export function mountGui(GUI, { params, state, info, actions }) {
   text.add(params, "textStagger", 0, 0.4, 0.005).onChange(replay);
   text.add(params, "textEase", EASES).onChange(replay);
   text.add(params, "textOut").name("leaves").onChange(replay);
-  text.add(params, "textOutAt", -6, 6, 0.05).name("leaves at (s)").onChange(replay); 
+  text.add(params, "textOutAt", -6, 6, 0.05).name("leaves at (s)").onChange(replay);
   text.add(params, "textOutTime", 0.05, 6, 0.05).onChange(replay);
   text.add(params, "textOutEase", EASES).onChange(replay);
 
-  
+
   const meta = gui.addFolder("meta");
   const onMeta = (k, lo, hi, step, label) =>
     meta.add(params, k, lo, hi, step).name(label).onChange(styleMeta);
@@ -158,19 +158,19 @@ export function mountGui(GUI, { params, state, info, actions }) {
   onMeta("nameSize", 0.5, 10, 0.01, "name size (vw)");
   onMeta("idxSize", 0.4, 8, 0.01, "number size (vw)");
   onMeta("listSize", 0.3, 4, 0.01, "column size (vw)");
-  meta.add(params, "nameWeight", WEIGHTS).name("name weight").onChange(styleMeta); 
-  meta.add(params, "idxWeight", WEIGHTS).name("number weight").onChange(styleMeta); 
+  meta.add(params, "nameWeight", WEIGHTS).name("name weight").onChange(styleMeta);
+  meta.add(params, "idxWeight", WEIGHTS).name("number weight").onChange(styleMeta);
   meta.add(params, "nameMorphTime", 0.1, 4, 0.05).name("morph time");
   meta.add(params, "nameEase", EASES).name("ease");
   meta.add(params, "nameBlur", 0, 40, 0.5).name("smear");
-  meta.add(params, "nameEdge", 8, 800, 1).name("threshold gain").onChange(setThreshold); 
-  meta.add(params, "nameCut", 0.05, 0.95, 0.01).name("threshold cut").onChange(setThreshold); 
+  meta.add(params, "nameEdge", 8, 800, 1).name("threshold gain").onChange(setThreshold);
+  meta.add(params, "nameCut", 0.05, 0.95, 0.01).name("threshold cut").onChange(setThreshold);
   meta.add(params, "nameSoften", 0, 3, 0.05).name("soften");
-  
-  
+
+
   meta.add({ again: actions.replayMeta }, "again").name("play again");
 
-  
+
   const glass = gui.addFolder("glass");
   glass.add(params, "glass").name("enabled");
   glass.add(params, "bandTop", 0, 0.5, 0.005).name("top band");
@@ -182,7 +182,7 @@ export function mountGui(GUI, { params, state, info, actions }) {
   glass.add(params, "fringe", 0, 40, 0.1);
   glass.add(params, "sheen", -0.5, 0.5, 0.005);
 
-  
+
   const scroll = gui.addFolder("scroll");
   scroll.add(params, "scrollSpeed", 0, 0.05, 0.0001);
   scroll.add(params, "scrollThreshold", 1, 180, 1).name("wheel threshold");
@@ -215,20 +215,20 @@ export function mountGui(GUI, { params, state, info, actions }) {
   pointer.add(params, "waveFreq", 0, 0.5, 0.001).name("wake freq");
   pointer.add(params, "waveSpeed", 0, 40, 0.1).name("wake speed");
 
-  
-  
+
+
   const sides = gui.addFolder("side cards");
   sides.add(params, "sideScale", 0, 0.9, 0.005).name("scale down");
   sides.add(params, "sidePush", 0, 240, 1).name("push away");
   sides.add(params, "sideDim", 0, 1, 0.01).name("dim");
   sides.add(params, "sideReach", 0.2, 12, 0.05).name("reach (how many)");
 
-  
+
   const honey = gui.addFolder("honey");
   honey.add(params, "thread", 0, 6, 0.01);
   honey.add(params, "thin", 0.05, 12, 0.01);
-  honey.add(params, "pinch", 0.01, 2, 0.01); 
-  honey.add(params, "sag", -300, 300, 0.5); 
+  honey.add(params, "pinch", 0.01, 2, 0.01);
+  honey.add(params, "sag", -300, 300, 0.5);
   honey.add(params, "dissolve", 0, 100, 0.1);
   honey.add(params, "fillet", 0, 250, 0.5);
 
