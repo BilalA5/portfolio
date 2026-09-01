@@ -41,7 +41,7 @@ const Skiper4 = () => {
         </motion.div>
       </motion.div>
 
-      
+
       <Options
         scale={scale}
         setScale={setScale}
@@ -428,22 +428,3 @@ export const ThemeToggleButton5 = ({
     </button>
   );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
