@@ -917,7 +917,7 @@ export function SocialPreviewDock({
       <div
         style={{ pointerEvents: visible ? "auto" : "none" }}
         className={cn(
-          "absolute left-0 z-20 [filter:drop-shadow(0_12px_24px_rgb(0_0_0/0.14))_drop-shadow(0_2px_6px_rgb(0_0_0/0.08))]",
+          "social-preview-dock-panel absolute left-0 z-20 [filter:drop-shadow(0_12px_24px_rgb(0_0_0/0.14))_drop-shadow(0_2px_6px_rgb(0_0_0/0.08))]",
           placement === "above" ? "bottom-full pb-3" : "top-full pt-3",
         )}
       >
@@ -958,7 +958,7 @@ export function SocialPreviewDock({
       </div>
 
 
-      <div className="relative z-10 flex items-center gap-2">
+      <div className="social-preview-dock-items relative z-10 flex items-center gap-2">
         {email && <CopyEmailButton email={email} />}
         {links.map((item, i) => (
           <a
@@ -972,7 +972,7 @@ export function SocialPreviewDock({
             aria-label={item.label}
             onMouseEnter={() => setActive({ index: i, id: item.id })}
             onFocus={() => setActive({ index: i, id: item.id })}
-            className="rounded-md p-2 text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring [&>svg]:size-6"
+            className="social-preview-dock-trigger rounded-md p-2 text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring [&>svg]:size-6"
           >
             {item.icon}
           </a>
