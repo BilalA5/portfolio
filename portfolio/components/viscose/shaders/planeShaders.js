@@ -22,48 +22,48 @@ export const fragmentShader =  `
 
   varying vec2 vUv;
 
-  uniform vec2  uResolution;   
-  uniform vec2  uSize;         
-  uniform float uRadius;       
+  uniform vec2  uResolution;
+  uniform vec2  uSize;
+  uniform float uRadius;
 
-  
+
   uniform float uCount;
-  uniform vec2  uPos[MAX_PLANES];    
-  uniform float uRot[MAX_PLANES];    
-  
-  
-  
-  
-  
-  
-  
+  uniform vec2  uPos[MAX_PLANES];
+  uniform float uRot[MAX_PLANES];
+
+
+
+
+
+
+
   uniform vec4  uScale[MAX_PLANES];
 
-  
+
   uniform float uLinkCount;
   uniform vec2  uLinkA[MAX_LINKS];
   uniform vec2  uLinkB[MAX_LINKS];
-  
+
   uniform vec4  uLinkPar[MAX_LINKS];
 
-  uniform float uK;            
-  uniform float uWobble;       
+  uniform float uK;
+  uniform float uWobble;
   uniform float uTime;
   uniform vec3  uColor;
 
-  
-  
+
+
   uniform sampler2D uAtlas;
-  uniform vec2  uGrid;         
-  uniform float uBlend;        
+  uniform vec2  uGrid;
+  uniform float uBlend;
   uniform float uTextured;
 
-  
-  
-  
-  
-  uniform vec4 uMouse;  
-  uniform vec4 uMelt;   
+
+
+
+
+  uniform vec4 uMouse;
+  uniform vec4 uMelt;
 
   vec2 atlasUV(vec2 uv, float idx) {
     float col = mod(idx, uGrid.x);
@@ -72,18 +72,18 @@ export const fragmentShader =  `
   }
 
 
-  
-  
-  
-  
-  
-  uniform float uBandTop;     
-  uniform float uBandBottom;  
-  uniform vec4  uGlass;       
-  uniform float uFringe;      
-  uniform float uSheen;       
 
-  
+
+
+
+
+  uniform float uBandTop;
+  uniform float uBandBottom;
+  uniform vec4  uGlass;
+  uniform float uFringe;
+  uniform float uSheen;
+
+
   float glassBend(inout vec2 p) {
     float band = p.y > 0.0 ? uBandTop : uBandBottom;
     if (band <= 0.5) return 0.0;
@@ -92,24 +92,24 @@ export const fragmentShader =  `
     if (dy <= 0.0) return 0.0;
 
     float t = clamp(dy / band, 0.0, 1.0);
-    
-    
+
+
     float bend = 1.0 - sqrt(max(0.0, 1.0 - t * t));
 
     float s = sign(p.y);
-    
-    
-    
+
+
+
     p.y -= s * bend * (uGlass.x + sin(p.x * uGlass.w) * uGlass.z);
     p.x *= 1.0 - bend * uGlass.y;
 
     return bend;
   }
 
-  
-  
-  
-  
+
+
+
+
   vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
   vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
   vec3 permute(vec3 x) { return mod289(((x * 34.0) + 1.0) * x); }
@@ -139,20 +139,20 @@ export const fragmentShader =  `
     return 130.0 * dot(m, g);
   }
 
-  
+
   float sdRoundBox(vec2 p, vec2 b, float r) {
     vec2 q = abs(p) - b + r;
     return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r;
   }
 
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
   float sdBridge(vec2 p, vec2 a, vec2 b, float rEnd, float rMid, float sag) {
     vec2 ba = b - a;
     float len = length(ba);
@@ -166,20 +166,20 @@ export const fragmentShader =  `
     float across = dot(q, nrm);
 
     float h = clamp(along / len + 0.5, 0.0, 1.0);
-    float bell = sin(3.14159265 * h);           
+    float bell = sin(3.14159265 * h);
 
-    
+
     across += sag * bell * nrm.y;
 
-    float taper = pow(1.0 - bell, 1.7);         
+    float taper = pow(1.0 - bell, 1.7);
     float r = mix(rMid, rEnd, taper);
 
-    
+
     return max(abs(along) - len * 0.5, abs(across) - r);
   }
 
-  
-  
+
+
   float smin(float a, float b, float k) {
     if (k <= 0.0001) return min(a, b);
     float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);
@@ -192,14 +192,14 @@ export const fragmentShader =  `
     vec2 p = ps;
     float bend = glassBend(p);
 
-    
-    
-    
+
+
+
     float toMouse = length(p - uMouse.xy);
 
-    
-    
-    
+
+
+
     float k = uK;
     if (uMouse.z > 0.001) {
       float t = 1.0 - smoothstep(0.0, max(uMelt.x, 1.0), toMouse);
@@ -208,9 +208,9 @@ export const fragmentShader =  `
 
     float d = 1e6;
 
-    
-    
-    
+
+
+
     float d0 = 1e6, d1 = 1e6;
     vec2 uv0 = vec2(0.5), uv1 = vec2(0.5);
     float im0 = 0.0, im1 = 0.0;
@@ -227,29 +227,29 @@ export const fragmentShader =  `
       if (grown <= 0.0001) continue;
 
       vec2 q = p - uPos[i];
-      
-      
-      
-      
+
+
+
+
       float cull = halfSpan * grown + k + uWobble + 8.0;
       if (dot(q, q) > cull * cull) continue;
 
-      
+
       float a  = uRot[i];
       float ca = cos(a), sa = sin(a);
       q = vec2(q.x * ca + q.y * sa, -q.x * sa + q.y * ca);
 
       vec2 halfSize = max(uSize * 0.5 * sc, vec2(0.0001));
 
-      
+
       float rMax = min(halfSize.x, halfSize.y);
       float r = min(rMax, mix(rMax, uRadius, smoothstep(0.30, 1.0, min(sc.x, sc.y))));
 
       float di = sdRoundBox(q, halfSize, r);
       d = smin(d, di, k);
 
-      
-      
+
+
       vec2 luv = q / (2.0 * halfSize) + 0.5;
       luv.y = 1.0 - luv.y;
       luv = clamp(luv, 0.004, 0.996);
@@ -262,15 +262,15 @@ export const fragmentShader =  `
       }
     }
 
-    
+
     for (int i = 0; i < MAX_LINKS; i++) {
       if (float(i) >= uLinkCount) break;
 
       vec4 par = uLinkPar[i];
-      
-      
-      
-      
+
+
+
+
       if (par.x <= -3.0) continue;
 
       vec2 a = uLinkA[i];
@@ -282,41 +282,41 @@ export const fragmentShader =  `
       d = smin(d, sdBridge(p, a, b, par.x, par.y, par.z), par.w);
     }
 
-    
+
     if (uWobble > 0.001) {
       float n = snoise(p * 0.012 + vec2(uTime * 0.22, uTime * -0.17));
       d += n * uWobble;
     }
 
-    
-    
-    
-    
+
+
+
+
     if (uMelt.y > 0.001) {
       d += sin(toMouse * uMelt.z - uTime * uMelt.w)
          * uMelt.y * exp(-toMouse / max(uMelt.x, 1.0));
     }
 
-    
-    
-    
+
+
+
     float aa = clamp(fwidth(d), 0.5, 2.0);
     float alpha = 1.0 - smoothstep(-aa, aa, d);
 
     if (alpha <= 0.001) discard;
 
-    
-    
-    
+
+
+
     float nearest = smoothstep(-uBlend, uBlend, d1 - d0);
 
     vec3 col = uColor;
     if (uTextured > 0.5) {
       vec3 c0, c1;
 
-      
-      
-      
+
+
+
       if (uFringe > 0.0) {
         vec2 fr = vec2(uFringe * bend / max(uSize.x, 1.0), 0.0);
         c0 = vec3(
@@ -337,20 +337,20 @@ export const fragmentShader =  `
       col = mix(c1, c0, nearest);
     }
 
-    
-    
-    
-    
+
+
+
+
     col *= mix(dm1, dm0, nearest);
 
-    
-    
+
+
     col += bend * uSheen;
 
-    
-    
-    
-    
+
+
+
+
     gl_FragColor = vec4(col, alpha);
   }
 `;
