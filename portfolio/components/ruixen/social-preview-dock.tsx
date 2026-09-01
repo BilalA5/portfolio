@@ -38,58 +38,58 @@ export interface ContributionDay {
 }
 
 export interface SocialProfile {
-  
+
   username?: string;
-  
+
   xHandle?: string;
-  
+
   name?: string;
-  
+
   avatar?: string;
-  
+
   bio?: string;
-  
+
   headline?: string;
-  
+
   location?: string;
-  
+
 
 
 
   contributions?: number;
-  
+
 
 
 
 
   levels?: string;
-  
+
   cover?: string;
   links?: { github?: string; linkedin?: string; x?: string };
 }
 
 export interface SocialPreviewItem {
-  
+
   id: string;
-  
+
   label: string;
   href: string;
-  
+
   icon: React.ReactNode;
-  
+
   card: React.ReactNode;
 }
 
 export interface SocialPreviewDockProps {
-  
+
   profile?: SocialProfile;
-  
+
   items?: SocialPreviewItem[];
-  
+
   email?: string;
-  
+
   live?: boolean;
-  
+
 
 
 
@@ -160,7 +160,7 @@ function useGithubLive(username: string, enabled: boolean): GithubLive {
     const json = <T,>(url: string): Promise<T> =>
       fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(r.status)));
 
-    
+
 
     Promise.allSettled([
       json<GithubUserResponse>(`${GITHUB_API}/${username}`),
@@ -250,7 +250,7 @@ function ContributionHeatmap({
   days: ContributionDay[];
   label: string;
 }) {
-  
+
 
   const [tip, setTip] = React.useState<HeatmapTip | null>(null);
   const gridRef = React.useRef<HTMLDivElement>(null);
@@ -279,7 +279,7 @@ function ContributionHeatmap({
 
   return (
     <div className="relative mt-3">
-      
+
 
       <div
         ref={gridRef}
@@ -305,7 +305,7 @@ function ContributionHeatmap({
         <div
           role="tooltip"
           style={{
-            
+
 
 
 
@@ -331,7 +331,7 @@ function GithubCard({
   profile: SocialProfile;
   live: GithubLive;
 }) {
-  
+
 
   const days = React.useMemo<ContributionDay[]>(() => {
     if (live.days?.length) return live.days;
@@ -353,7 +353,7 @@ function GithubCard({
     <div className={cn(CARD, "w-[420px] p-4")}>
       <div className="flex items-center gap-3">
         {profile.avatar || live.avatar ? (
-          
+
           <img
             src={live.avatar ?? profile.avatar}
             alt=""
@@ -394,7 +394,7 @@ uniform vec3 u_colors[4];
 void main() {
   vec2 uv = gl_FragCoord.xy / u_res;
 
-  
+
 
   vec2 p = uv;
   p += 0.18 * vec2(sin(uv.y * 4.0 + u_t * 0.6), cos(uv.x * 4.0 + u_t * 0.5));
@@ -408,7 +408,7 @@ void main() {
       0.5 + 0.42 * sin(u_t * (0.23 + 0.05 * fi) + fi * 1.7),
       0.5 + 0.42 * cos(u_t * (0.19 + 0.06 * fi) + fi * 2.3)
     );
-    
+
 
     float w = 1.0 / (pow(distance(p, anchor), 2.6) + 0.015);
     sum += u_colors[i] * w;
@@ -445,7 +445,7 @@ function useShaderColors(colors: string[]): number[][] {
           ctx.fillStyle = "#888888";
           ctx.fillStyle = raw || "#888888";
           const hex = String(ctx.fillStyle);
-          
+
           if (hex[0] !== "#" || hex.length !== 7) return [0.53, 0.53, 0.53];
           return [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
         }),
@@ -493,7 +493,7 @@ function MeshGradient({
     const canvas = canvasRef.current;
     if (!canvas || !rgb.length) return;
 
-    
+
 
     const gl = canvas.getContext("webgl", { antialias: false, depth: false });
     if (!gl) return;
@@ -519,7 +519,7 @@ function MeshGradient({
     gl.enableVertexAttribArray(attribute);
     gl.vertexAttribPointer(attribute, 2, gl.FLOAT, false, 0, 0);
 
-    
+
     const palette = Array.from({ length: 4 }, (_, i) => rgb[i % rgb.length]);
     gl.uniform3fv(
       gl.getUniformLocation(program, "u_colors"),
@@ -546,7 +546,7 @@ function MeshGradient({
 
     const draw = (now: number) => {
       resize();
-      
+
       gl.uniform1f(uTime, still ? 0 : ((now - start) / 1000) * speed);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       if (!still) frame = requestAnimationFrame(draw);
@@ -564,11 +564,11 @@ function MeshGradient({
       gl.deleteShader(fs);
       gl.deleteBuffer(buffer);
     };
-    
+
   }, [key, speed]);
 
   return (
-    
+
 
 
 
@@ -589,12 +589,12 @@ function Banner({
   className?: string;
 }) {
   return (
-    
+
 
 
     <div
       className={cn(
-        
+
 
         "relative overflow-hidden rounded-t-2xl bg-gradient-to-br from-muted via-accent to-primary/50",
         className,
@@ -623,7 +623,7 @@ function LinkedinCard({
     <div className={cn(CARD, "w-[300px]")}>
       <Banner colors={colors} className="h-14" />
       <div className="px-4 pb-4">
-        
+
         <img
           src={live.avatar ?? profile.avatar}
           alt=""
@@ -674,7 +674,7 @@ function XCard({
       )}
       <div className="px-4 pb-4">
         <div className="flex items-start justify-between gap-3">
-          
+
           <img
             src={live.avatar ?? profile.avatar}
             alt=""
@@ -755,7 +755,7 @@ function CopyEmailButton({ email }: { email: string }) {
       clearTimeout(timer.current);
       timer.current = setTimeout(() => setCopied(false), 3000);
     } catch {
-      
+
       window.location.assign(`mailto:${email}`);
     }
   };
@@ -767,7 +767,7 @@ function CopyEmailButton({ email }: { email: string }) {
       data-copied={copied ? "" : undefined}
       className="group relative flex items-center justify-center rounded-2xl bg-foreground px-4 py-2 text-sm font-medium text-background outline-none transition-transform focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-95"
     >
-      
+
       <span className="transition-all duration-500 group-data-[copied]:opacity-0 group-data-[copied]:blur-[2px]">
         Copy my email
       </span>
@@ -833,11 +833,11 @@ export function SocialPreviewDock({
   const [placement, setPlacement] = React.useState<"above" | "below">(
     "above",
   );
-  
+
 
   const [appearing, setAppearing] = React.useState(true);
 
-  
+
 
 
   useIsoLayoutEffect(() => {
@@ -853,14 +853,14 @@ export function SocialPreviewDock({
     const height = card.offsetHeight;
     const buttonRect = btn.getBoundingClientRect();
 
-    
+
 
 
     setPlacement(
       buttonRect.top >= height + MARGIN ? "above" : "below",
     );
 
-    
+
 
 
 
@@ -895,7 +895,7 @@ export function SocialPreviewDock({
   const visible = active !== null && box.width > 0;
 
   return (
-    
+
 
 
     <div
@@ -909,7 +909,7 @@ export function SocialPreviewDock({
       }}
       className={cn("relative inline-flex items-center", className)}
     >
-      
+
 
 
 
@@ -957,7 +957,7 @@ export function SocialPreviewDock({
         </motion.div>
       </div>
 
-      
+
       <div className="relative z-10 flex items-center gap-2">
         {email && <CopyEmailButton email={email} />}
         {links.map((item, i) => (
