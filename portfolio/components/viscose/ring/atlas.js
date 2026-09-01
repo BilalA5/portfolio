@@ -24,7 +24,7 @@ const load = (src, priority) =>
     }
     const img = new Image();
     if (src.startsWith("http")) img.crossOrigin = "anonymous";
-    
+
     if (priority) img.fetchPriority = priority;
     img.onload = () => resolve(img);
     img.onerror = () => reject(new Error(`failed to load ${src}`));
@@ -55,11 +55,11 @@ export function buildAtlas(files = IMAGE_FILES, onProgress) {
   const videos = [];
 
   const texture = new THREE.CanvasTexture(canvas);
-  
+
   texture.flipY = false;
-  
-  
-  
+
+
+
   texture.colorSpace = THREE.NoColorSpace;
   texture.wrapS = THREE.ClampToEdgeWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
@@ -71,7 +71,7 @@ export function buildAtlas(files = IMAGE_FILES, onProgress) {
     const x = (i % cols) * CELL_W;
     const y = Math.floor(i / cols) * CELL_H;
 
-    
+
     const sourceWidth = img.videoWidth || img.width;
     const sourceHeight = img.videoHeight || img.height;
     const scale = Math.max(CELL_W / sourceWidth, CELL_H / sourceHeight);
@@ -80,7 +80,7 @@ export function buildAtlas(files = IMAGE_FILES, onProgress) {
 
     ctx.save();
     ctx.beginPath();
-    ctx.rect(x, y, CELL_W, CELL_H); 
+    ctx.rect(x, y, CELL_W, CELL_H);
     ctx.clip();
     ctx.globalAlpha = opacity;
     ctx.globalCompositeOperation = blendMode;
@@ -131,14 +131,14 @@ export function buildAtlas(files = IMAGE_FILES, onProgress) {
       });
   };
 
-  
-  
+
+
   const first = fetchInto(0, "high").then(() => {
     texture.needsUpdate = true;
   });
 
-  
-  
+
+
   const ready = Promise.all([
     first,
     ...files.slice(1).map((_, k) => fetchInto(k + 1, "low")),
