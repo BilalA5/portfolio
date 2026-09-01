@@ -418,6 +418,11 @@
     height: 30px;
   }
 
+  .profile-header .socials .social-preview-dock,
+  .profile-header .socials .social-preview-dock > .relative.z-10 {
+    width: auto;
+  }
+
   .profile-header .socials .social-preview-dock > .relative.z-10 {
     gap: 3px;
   }
@@ -570,6 +575,11 @@
   .profile-header .socials .theme-toggle-skiper {
     width: 28px;
     height: 28px;
+  }
+
+  .profile-header .socials .social-preview-dock,
+  .profile-header .socials .social-preview-dock > .relative.z-10 {
+    width: auto;
   }
 
   .profile-header .socials .social-preview-dock a,
