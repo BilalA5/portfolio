@@ -25,7 +25,7 @@ export function createTag(params, uniforms) {
   let tex = null;
 
   const build = () => {
-    
+
     const dpr = Math.min(window.devicePixelRatio, 2) * 2;
     const canvas = document.createElement("canvas");
     canvas.width = Math.ceil(TAG_W * dpr);
@@ -63,12 +63,12 @@ export function createTag(params, uniforms) {
   const show = (on) => {
     gsap.killTweensOf(box);
     if (on) {
-      
-      
+
+
       gsap.to(box, { sx: 1, duration: 0.62, ease: "elastic.out(1, 0.5)" });
       gsap.to(box, { sy: 1, duration: 0.74, ease: "elastic.out(1, 0.42)" });
     } else {
-      
+
       gsap.to(box, { sx: 0.5, sy: 0, duration: 0.28, ease: "power3.in" });
     }
   };
