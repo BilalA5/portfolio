@@ -38,8 +38,8 @@ function fade(el, f, blur) {
     el.style.filter = "none";
     el.style.opacity = "1";
   } else if (f <= 0) {
-    
-    
+
+
     el.style.filter = "none";
     el.style.opacity = "0";
   } else {
@@ -50,10 +50,10 @@ function fade(el, f, blur) {
 
 function createGroup(side, groups, params) {
   const m = { t: 1 };
-  
-  
-  
-  
+
+
+
+
   let prev = ["", ""];
   let moving = [false, false];
 
@@ -77,25 +77,25 @@ function createGroup(side, groups, params) {
       }
     }
 
-    
-    
-    
+
+
+
     if (g.goo) {
       g.goo.style.filter =
         t >= 1 ? "none" : `url(#name-goo) blur(${params.nameSoften}px)`;
     }
   };
 
-  
-  
+
+
   const set = (parts) => {
     const g = groups[side];
     if (!g?.layers[0] || !g.layers[1] || !g.plain) return;
     gsap.killTweensOf(m);
 
-    
-    
-    
+
+
+
     m.t = 1;
     draw();
 
@@ -112,8 +112,8 @@ function createGroup(side, groups, params) {
     }
     prev = next;
 
-    
-    
+
+
     if (!moving[0] && !moving[1]) {
       m.t = 1;
       draw();
@@ -142,7 +142,7 @@ export function createMeta(refs, params) {
   const left = createGroup("left", groups, params);
   const right = createGroup("right", groups, params);
 
-  
+
   const setThreshold = () => {
     cut?.setAttribute(
       "values",
@@ -153,11 +153,11 @@ export function createMeta(refs, params) {
     );
   };
 
-  
-  
+
+
   const style = ({ textK, tight, viewW }) => {
-    
-    
+
+
     const bigVw = params.nameSize * textK * (tight ? params.tightName : 1);
     const big = `${bigVw}vw`;
     const small = `${params.idxSize * textK}vw`;
@@ -165,8 +165,8 @@ export function createMeta(refs, params) {
     const smallFace = `"${params.idxFont}", ui-sans-serif, system-ui, sans-serif`;
     const bigWeight = `${params.nameWeight}`;
     const smallWeight = `${params.idxWeight}`;
-    
-    
+
+
     const h = bigVw * 3;
 
     for (const side of SIDES) {
@@ -174,9 +174,9 @@ export function createMeta(refs, params) {
       if (!g?.box) continue;
       const isRight = side === "right";
 
-      
-      
-      
+
+
+
       const corner = tight && !isRight;
       if (tight && isRight) {
         g.box.style.display = "none";
@@ -184,13 +184,13 @@ export function createMeta(refs, params) {
       }
       g.box.style.display = "";
 
-      g.box.style.width = `${corner ? params.tightMetaWidth : params.metaWidth}vw`; 
+      g.box.style.width = `${corner ? params.tightMetaWidth : params.metaWidth}vw`;
       g.box.style.height = `${h}vw`;
 
       if (corner) {
-        
-        
-        
+
+
+
         const boxPx = (h * viewW) / 100;
         const emPx = (bigVw * viewW) / 100;
         g.box.style.top = "auto";
@@ -199,20 +199,20 @@ export function createMeta(refs, params) {
         g.box.style.bottom = `${params.tightNameBottom + emPx * 0.5 - boxPx * 0.5}px`;
         g.box.style.transform = "none";
       } else {
-        
+
         g.box.style.top = "";
         g.box.style.bottom = "";
         g.box.style.transform = "";
-        
-        
-        
-        
+
+
+
+
         g.box.style.left = isRight ? "auto" : `${params.metaLeft}vw`;
         g.box.style.right = isRight ? `${params.metaRight}vw` : "auto";
       }
 
-      
-      
+
+
       for (const layer of [...g.layers, g.plain]) {
         if (!layer) continue;
         layer.style.justifyContent =
@@ -220,8 +220,8 @@ export function createMeta(refs, params) {
         const row = layer.firstElementChild;
         row.style.gap = `${isRight ? params.metaGapR : params.metaGapL}vw`;
         const [lead, trail] = row.children;
-        
-        
+
+
         lead.style.display = corner ? "none" : "";
         lead.style.fontFamily = isRight ? bigFace : smallFace;
         lead.style.fontSize = isRight ? big : small;
@@ -232,8 +232,8 @@ export function createMeta(refs, params) {
       }
     }
 
-    
-    
+
+
     if (list) list.style.fontSize = `${params.listSize * textK}vw`;
     if (loader) {
       loader.style.bottom = `${params.loaderBottom}vh`;
@@ -245,15 +245,15 @@ export function createMeta(refs, params) {
     setThreshold();
   };
 
-  
-  
+
+
   const show = (i) => {
     const p = PROJECTS[i];
     if (!p) return;
     left.set([String(i + 1).padStart(2, "0"), p.name]);
     right.set([p.type, p.year]);
-    
-    
+
+
     if (live) {
       live.textContent = [
         `${p.name}. ${p.type}, ${p.year}.`,
