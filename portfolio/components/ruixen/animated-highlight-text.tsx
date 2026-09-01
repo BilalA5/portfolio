@@ -36,9 +36,9 @@ export function Highlight({
       <span className="animated-highlight-underline" aria-hidden="true" />
       <span className="animated-highlight-popover" aria-hidden="true">
         {image ? (
-          
-          
-          
+
+
+
           <img src={image} alt={imageAlt} />
         ) : null}
         {icon ? <span className="animated-highlight-icon">{icon}</span> : null}
