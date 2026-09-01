@@ -102,9 +102,9 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
   const [shownProject, setShownProject] = useState(null);
   const [projectSettled, setProjectSettled] = useState(false);
   const projectSettledRef = useRef(false);
-  
-  
-  
+
+
+
   const metaRef = useRef({
     left: { box: null, goo: null, layers: [], plain: null },
     right: { box: null, goo: null, layers: [], plain: null },
@@ -114,8 +114,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
     const container = containerRef.current;
     const listEl = listRef.current;
     const loaderEl = loaderRef.current;
-    
-    
+
+
     let disposed = false;
     const setProjectReady = (ready) => {
       if (projectSettledRef.current === ready) return;
@@ -125,21 +125,21 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
 
     const params = defaultParams();
     params.textColor = dark ? "#ededed" : "#0a0a0a";
-    
-    
-    
-    
-    
+
+
+
+
+
     const state = { progress: 0, launch: 0, spread: 0, spin: 0, shift: 0 };
-    
-    
+
+
     const info = { restingGap: 0, window: "", scale: 1, band: "wide" };
 
-    
-    
-    
-    
-    
+
+
+
+
+
     let renderer;
     try {
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -162,8 +162,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         value: Array.from({ length: MAX_PLANES }, () => new THREE.Vector2()),
       },
       uRot: { value: new Float32Array(MAX_PLANES) },
-      
-      
+
+
       uScale: {
         value: Array.from(
           { length: MAX_PLANES },
@@ -177,7 +177,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       uLinkB: {
         value: Array.from({ length: MAX_LINKS }, () => new THREE.Vector2()),
       },
-      
+
       uLinkPar: {
         value: Array.from({ length: MAX_LINKS }, () => new THREE.Vector4()),
       },
@@ -185,7 +185,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       uWobble: { value: params.wobble },
       uTime: { value: 0 },
       uColor: { value: new THREE.Color(dark ? "#ededed" : "#0a0a0a") },
-      uAtlas: { value: blankTexture() }, 
+      uAtlas: { value: blankTexture() },
       uGrid: { value: new THREE.Vector2(1, 1) },
       uBlend: { value: params.blend },
       uTextured: { value: 0 },
@@ -208,7 +208,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         depthWrite: false,
       }),
     );
-    
+
     mesh.renderOrder = 10;
     scene.add(mesh);
 
@@ -227,15 +227,15 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       params,
     );
 
-    
-    
-    
-    
-    let firstIn = false; 
-    let loadProg = 0; 
 
-    
-    
+
+
+
+    let firstIn = false;
+    let loadProg = 0;
+
+
+
     let launchReady = false;
     const readyWaiters = [];
     const whenReady = (fn) => (launchReady ? fn() : readyWaiters.push(fn));
@@ -248,10 +248,10 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
             poster: file,
             posterOpacity: 0.18,
             videoOpacity: 1,
-            
-            
-            
-            
+
+
+
+
             blendMode: dark ? "screen" : "multiply",
           }
         : file;
@@ -264,8 +264,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
     atlas.texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
     uniforms.uAtlas.value = atlas.texture;
     uniforms.uGrid.value.set(atlas.grid[0], atlas.grid[1]);
-    
-    
+
+
     const imageCount = atlas.count;
 
     atlas.first.then(() => {
@@ -275,22 +275,22 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       if (!disposed) loadProg = 1;
     });
 
-    
+
     let viewW = 1;
     let viewH = 1;
-    
-    
+
+
     const bounds = { left: 0, top: 0 };
 
-    
-    
-    
+
+
+
     let fit = 1;
     let planeK = 1;
     let radiusK = 1;
     let textK = 1;
-    
-    
+
+
     let narrowNow = false;
     let tightNow = false;
 
@@ -306,8 +306,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       narrowNow = narrow;
       tightNow = tight;
       planeK = narrow ? params.narrowPlane : 1;
-      
-      
+
+
       radiusK =
         (narrow ? params.narrowRadius : 1) * (tight ? params.tightRadius : 1);
       textK = narrow ? params.narrowText : 1;
@@ -316,9 +316,9 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       info.scale = Math.round(fit * 1000) / 1000;
       info.band = tight ? "tight" : narrow ? "narrow" : "wide";
 
-      
-      
-      
+
+
+
       const k = fit * textK * (tight ? params.tightSplit : 1);
       textGroup.scale.set(k, k, 1);
     };
@@ -344,8 +344,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       bounds.top = rect.top;
     };
 
-    
-    
+
+
     const onResize = () => {
       resize();
       styleMeta();
@@ -354,26 +354,26 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
     resize();
     window.addEventListener("resize", onResize);
 
-    
+
     const ringCentre = { x: 0, y: 0 };
-    
-    
+
+
     let frontAngle = 0;
     let interactive = false;
-    let spinVel = 0; 
+    let spinVel = 0;
     let dragging = false;
     let dragPrevAngle = 0;
     let dragPrevTime = 0;
 
-    
-    
-    
+
+
+
     let settling = false;
     let snapTo = 0;
     let snapCap = 0;
 
-    
-    
+
+
     let picking = false;
     let wheelTarget = null;
     let wheelResetTimer = 0;
@@ -386,7 +386,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
     let wheelDirection = 0;
     let wheelLastTime = 0;
 
-    let pointerTravel = 0; 
+    let pointerTravel = 0;
     let pressX = 0;
     let pressY = 0;
     let pressed = false;
@@ -409,10 +409,10 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
     };
 
 
-    
-    
-    
-    
+
+
+
+
     const projectIndexForPlane = (planeIndex) => {
       const count = Math.round(params.count);
       const imageOffset = Math.round(params.imageOffset);
@@ -433,11 +433,11 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       const projectIndex = projectIndexForPlane(planeIndex);
       if (!PROJECTS[projectIndex]) return;
       const slot = TAU / Math.round(params.count);
-      
+
       const base =
         frontAngle - params.seed * DEG - signedOffset(planeIndex) * slot;
-      
-      
+
+
       const target = base + Math.round((state.spin - base) / TAU) * TAU;
 
       const slots = Math.abs(target - state.spin) / slot;
@@ -456,8 +456,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       gsap.killTweensOf(state);
       gsap.to(state, {
         spin: target,
-        
-        
+
+
         duration: params.pickTime * Math.sqrt(Math.max(1, slots)),
         ease: params.pickEase,
         onComplete: () => {
@@ -472,20 +472,20 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       if (planeIndex >= 0) pick(planeIndex, false);
     };
 
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     const pointer = { x: 0, y: 0, inside: false, seeded: false };
-    
-    
+
+
     const cursor = { x: 0, y: 0, amt: 0, wake: 0 };
 
-    
-    
+
+
     let coarse = false;
     let held = false;
     let holdTimer = 0;
@@ -503,8 +503,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       }, params.touchHold * 1000);
     };
 
-    
-    
+
+
     const engaged = () => (coarse ? held : pointer.inside);
 
     const trackPointer = (e) => {
@@ -512,8 +512,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       pointer.x = e.clientX - bounds.left - viewW * 0.5;
       pointer.y = viewH * 0.5 - (e.clientY - bounds.top);
       pointer.inside = true;
-      
-      
+
+
       if (!pointer.seeded) {
         pointer.seeded = true;
         cursor.x = pointer.x;
@@ -527,7 +527,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
 
     const onWheel = (e) => {
       if (!interactive) return;
-      
+
       const raw = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
       if (Math.abs(raw) < 1) return;
 
@@ -536,11 +536,11 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       const atLastProject =
         shown === PROJECTS.length - 1 && direction > 0;
 
-      
-      
-      
-      
-      
+
+
+
+
+
       if ((atFirstProject || atLastProject) && !wheelAnimating) {
         if (atLastProject && direction > 0) onReachEndRef.current?.();
         clearTimeout(wheelResetTimer);
@@ -555,17 +555,17 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
 
       e.preventDefault();
 
-      
-      
-      
+
+
+
       const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? viewH : 1;
       const d = raw * unit;
       const now = performance.now();
       const wheelDirectionSign = Math.sign(d);
 
-      
-      
-      
+
+
+
       if (
         now - wheelLastTime > params.scrollCooldown * 1.5 ||
         (wheelDirection !== 0 && wheelDirectionSign !== wheelDirection)
@@ -584,22 +584,22 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         wheelGestureLocked = false;
       }, params.scrollCooldown * 1.5);
 
-      
-      
-      
+
+
+
       if (wheelCooling || wheelGestureLocked) return;
       wheelDistance += Math.abs(d);
 
-      
-      
-      
+
+
+
       if (wheelCooling || wheelDistance < params.scrollThreshold) return;
       wheelDistance = 0;
       wheelGestureLocked = true;
 
-      
-      
-      
+
+
+
       stopPick();
       settling = false;
       spinVel = 0;
@@ -609,9 +609,9 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         wheelCooling = false;
         wheelDistance = 0;
       }, params.scrollCooldown);
-      
-      
-      
+
+
+
       if (wheelTarget === null) wheelTarget = state.spin;
       wheelTarget += direction * slot;
       const target = wheelTarget;
@@ -667,19 +667,19 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
     const onPointerMove = (e) => {
       trackPointer(e);
 
-      
-      
-      
+
+
+
       if (pressed) {
         pointerTravel = Math.hypot(e.clientX - pressX, e.clientY - pressY);
       }
-      
-      
+
+
       if (coarse && !held && pointerTravel > params.touchSlop) endHold();
 
-      
-      
-      
+
+
+
       if (!dragging && pressed && pointerTravel >= params.dragThreshold) {
         dragging = true;
         setProjectReady(false);
@@ -693,7 +693,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
 
       const a = pointerAngle(e);
       let delta = a - dragPrevAngle;
-      
+
       if (delta > Math.PI) delta -= TAU;
       if (delta < -Math.PI) delta += TAU;
 
@@ -707,10 +707,10 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
     };
 
     const onPointerUp = (e) => {
-      
-      
+
+
       trackPointer(e);
-      
+
       endHold();
       pressed = false;
       if (!dragging) {
@@ -721,9 +721,9 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       renderer.domElement.releasePointerCapture?.(e.pointerId);
     };
 
-    
-    
-    
+
+
+
     const onClick = () => {
       if (!interactive || pointerTravel >= params.dragThreshold || over < 0) return;
       pick(over);
@@ -738,8 +738,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
     container.addEventListener("click", onClick);
 
     const updatePointer = (dt) => {
-      
-      
+
+
       const live = params.hover && engaged() && pointer.seeded && interactive;
       cursor.amt += ((live ? 1 : 0) - cursor.amt) * chase(dt, 0.12);
 
@@ -747,16 +747,16 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       cursor.x += (pointer.x - cursor.x) * k;
       cursor.y += (pointer.y - cursor.y) * k;
 
-      
-      
+
+
       const trail = Math.hypot(pointer.x - cursor.x, pointer.y - cursor.y);
       cursor.wake = Math.max(
         cursor.wake * Math.pow(0.94, dt * 60),
         clamp01(trail / (Math.max(dt, 0.001) * 2600)),
       );
 
-      
-      
+
+
       uniforms.uMouse.value.set(
         cursor.x,
         cursor.y,
@@ -771,18 +771,18 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       );
     };
 
-    
-    
-    
-    
-    
+
+
+
+
+
     const loading = { shown: 0 };
 
     const tickLoader = (dt) => {
       const target = Math.min(loadProg, clamp01(state.progress));
       loading.shown += (target - loading.shown) * chase(dt, params.loaderChase);
 
-      
+
       const n = Math.min(100, Math.max(1, Math.round(loading.shown * 100)));
       if (loaderEl) loaderEl.textContent = String(n).padStart(3, "0");
 
@@ -793,28 +793,28 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       }
     };
 
-    
+
     const travel = new Float32Array(MAX_PLANES);
     const cum = new Float32Array(MAX_PLANES);
     const order = [];
-    
-    
+
+
     const rest = Array.from({ length: MAX_PLANES }, () => new THREE.Vector2());
 
-    
-    
+
+
     const hoverF = new Float32Array(MAX_PLANES);
     const leanX = new Float32Array(MAX_PLANES);
     const leanY = new Float32Array(MAX_PLANES);
     const webF = new Float32Array(MAX_LINKS);
-    
-    
+
+
     const sideF = new Float32Array(MAX_PLANES);
-    
-    
-    
-    
-    
+
+
+
+
+
     const focusPos = new THREE.Vector2();
 
     const swellOf = (i) =>
@@ -823,7 +823,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         1 + params.swell * hoverF[i] - params.sideScale * sideF[i],
       );
 
-    
+
     let shown = -1;
     let announced = -1;
     let over = -1;
@@ -848,8 +848,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       const step = TAU / count;
       const spread = clamp01(state.spread);
 
-      
-      
+
+
       const endScale = narrowNow ? params.narrowEndScale : params.endScale;
       const posX = tightNow
         ? params.tightPosX
@@ -857,48 +857,48 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
           ? params.narrowPosX
           : params.posX;
 
-      
-      
+
+
       const shift = clamp01(state.shift);
       const g = (1 + (endScale - 1) * shift) * fit;
       const cx = posX * viewW * 0.5 * shift;
       const cy = params.posY * viewH * 0.5 * shift;
 
-      
+
       ringCentre.x = viewW * 0.5 + cx;
       ringCentre.y = viewH * 0.5 - cy;
-      
-      
-      
+
+
+
       frontAngle = cx !== 0 || cy !== 0 ? Math.atan2(-cy, -cx) : 0;
 
-      
-      
+
+
       const W = params.planeSize * planeK * g;
       const H = W / 1.5;
       uniforms.uSize.value.set(W, H);
-      
-      
+
+
       uniforms.uRadius.value = params.radius * planeK * g;
 
-      
-      
+
+
       const sepExtent = params.radial ? H : W;
       const faceEdge = params.radial ? W : H;
 
       const R = params.ringRadius * radiusK * g;
       const restingGap = 2 * R * Math.sin(step / 2) - sepExtent;
       info.restingGap = Math.round((restingGap / g) * 10) / 10;
-      
+
       const finalSep = Math.max(1, restingGap);
 
-      
-      
+
+
       const maxN = Math.max(1, Math.abs(signedOffset(count - 1)));
       const dur = Math.max(0.1, 1 - FAN_START - params.stagger);
 
-      
-      
+
+
       cum[0] = 0;
       for (let n = 1; n <= maxN; n++) {
         const start = FAN_START + ((n - 1) / maxN) * params.stagger;
@@ -909,9 +909,9 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       }
 
       const seedAngle = params.seed * DEG;
-      
-      
-      
+
+
+
       const launch = easeInOutCubic(clamp01(state.launch));
       const Rnow = R * launch;
 
@@ -920,32 +920,32 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       const track = cursor.amt > 0.001;
       const reach = Math.max(1, params.reach * W);
       const sideReach = Math.max(1, params.sideReach * W);
-      
-      
-      
+
+
+
       const kRise = chase(dt, params.grab);
       const kFall = chase(dt, params.release);
 
-      
-      
+
+
       let frontI = -1;
       let frontD = 1e9;
       let frontCell = 0;
 
-      
-      
-      
-      
+
+
+
+
       const imgOff = Math.round(params.imageOffset);
       const cellOf = (slot) =>
         imageCount > 0
           ? (((imgOff - slot) % imageCount) + imageCount) % imageCount
           : 0;
 
-      
+
       const probe = pointer.inside && pointer.seeded && interactive;
       let overI = -1;
-      
+
       const focusI = track ? over : -1;
 
       for (let i = 0; i < count; i++) {
@@ -959,7 +959,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         const py = Math.sin(angle) * Rnow + cy;
         rest[i].set(px, py);
 
-        
+
         const da = angle - frontAngle;
         const toFront = Math.abs(Math.atan2(Math.sin(da), Math.cos(da)));
         if (toFront < frontD) {
@@ -968,9 +968,9 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
           frontCell = cell;
         }
 
-        
-        
-        
+
+
+
         let f = 0;
         let toX = 0;
         let toY = 0;
@@ -986,27 +986,27 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
           }
         }
 
-        
-        
+
+
         const k = f > hoverF[i] ? kRise : kFall;
         hoverF[i] += (f - hoverF[i]) * k;
         leanX[i] += (toX - leanX[i]) * k;
         leanY[i] += (toY - leanY[i]) * k;
 
-        
-        
+
+
         let sf = 0;
         if (focusI >= 0 && i !== focusI) {
           const d = Math.hypot(focusPos.x - px, focusPos.y - py);
           sf = smoothstep(sideReach, sideReach * 0.2, d) * u;
         }
-        
-        
-        
+
+
+
         sideF[i] += (sf - sideF[i]) * (sf > sideF[i] ? kRise : kFall);
 
-        
-        
+
+
         let pushX = 0;
         let pushY = 0;
         if (sideF[i] > 0.0001) {
@@ -1027,9 +1027,9 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         uniforms.uRot.value[i] =
           (params.radial ? angle : angle + HALF_PI) * launch;
 
-        
-        
-        
+
+
+
         const sx =
           i === 0
             ? easeOutCubic(clamp01(u / 0.7))
@@ -1038,8 +1038,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
           i === 0
             ? easeOutCubic(clamp01((u - 0.18) / 0.74))
             : easeOutCubic(clamp01((u - 0.06) / 0.36));
-        
-        
+
+
         const sw = swellOf(i);
         uniforms.uScale.value[i].set(
           sx * sw,
@@ -1048,10 +1048,10 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
           cell,
         );
 
-        
-        
-        
-        
+
+
+
+
         const symbolEl = symbolRefs.current[cell];
         if (symbolEl) {
           const planeScaleX = Math.abs(sx * sw);
@@ -1087,9 +1087,9 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
           symbolEl.style.filter = `drop-shadow(0 8px 12px rgba(0,0,0,.28)) brightness(${1 + hoverF[i] * 0.07})`;
         }
 
-        
-        
-        
+
+
+
         if (probe && overI < 0) {
           const rot = uniforms.uRot.value[i];
           const qx = cursor.x - (px + leanX[i] + pushX);
@@ -1116,14 +1116,14 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       }
 
       over = overI;
-      
-      
+
+
       if (over >= 0) focusPos.copy(rest[over]);
 
-      
-      
-      
-      
+
+
+
+
       const viewButton = viewButtonRef.current;
       if (viewButton && frontI >= 0) {
         const center = uniforms.uPos.value[frontI];
@@ -1152,24 +1152,24 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         viewButton.style.visibility = interactive ? "visible" : "hidden";
       }
 
-      
-      
-      
+
+
+
       if (frontI >= 0 && imageCount > 0 && frontCell !== shown) {
         shown = frontCell;
         paintList();
       }
 
-      
-      
-      
-      
+
+
+
+
       order.sort((a, b) => signedOffset(a) - signedOffset(b));
 
       const edgeHalf = faceEdge * 0.5 * params.thread;
-      
-      
-      
+
+
+
       const closed = spread > 0.995 && count > 2;
       const linkCount = Math.min(closed ? count : count - 1, MAX_LINKS);
 
@@ -1182,21 +1182,21 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         const scA = uniforms.uScale.value[ia];
         const scB = uniforms.uScale.value[ib];
 
-        
-        
-        
-        
+
+
+
+
         const shrinkA = (params.radial ? scA.y : scA.x) / swellOf(ia);
         const shrinkB = (params.radial ? scB.y : scB.x) / swellOf(ib);
         const sep =
           rest[ia].distanceTo(rest[ib]) - sepExtent * 0.5 * (shrinkA + shrinkB);
 
-        
+
         const v = clamp01(sep / finalSep);
 
-        
-        
-        
+
+
+
         let fl = 0;
         if (track && params.web > 0.0001) {
           const mx = (ca.x + cb.x) * 0.5;
@@ -1205,14 +1205,14 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
           const d = Math.hypot(cursor.x - mx, cursor.y - my);
           fl = smoothstep(webReach, webReach * 0.15, d) * cursor.amt;
         }
-        
-        
+
+
         webF[l] += (fl - webF[l]) * (fl > webF[l] ? kRise : kFall);
 
         const w = Math.max(Math.pow(1 - v, params.thin), params.web * webF[l]);
-        
-        
-        
+
+
+
         const rEnd = edgeHalf * w - params.dissolve;
         const rMid = rEnd * (1 - (1 - params.pinch) * smoothstep(0, 0.7, v));
 
@@ -1222,8 +1222,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
           rEnd,
           rMid,
           params.sag * g * Math.pow(v, 1.5),
-          
-          
+
+
           Math.min(
             params.fillet * g * smoothstep(0, 0.35, v),
             Math.max(rMid, 0) * 1.5,
@@ -1235,15 +1235,15 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       }
       uniforms.uLinkCount.value = linkCount;
 
-      
-      
+
+
       uniforms.uK.value = params.goo * planeK * fit;
       uniforms.uWobble.value =
         params.wobble * fit * (1 - smoothstep(0.2, 0.95, state.progress));
 
-      
-      
-      
+
+
+
       uniforms.uTextured.value = params.textured && firstIn ? 1 : 0;
       uniforms.uBlend.value = Math.max(0.5, params.blend * planeK * g);
 
@@ -1260,9 +1260,9 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       uniforms.uSheen.value = on ? params.sheen : 0;
     };
 
-    
-    
-    
+
+
+
     let entryGen = 0;
 
     const build = () => {
@@ -1272,22 +1272,22 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       spinVel = 0;
       dragging = false;
       settling = false;
-      
-      
+
+
       stopPick();
 
       const gen = ++entryGen;
-      
-      
+
+
       if (loaderEl) gsap.set(loaderEl, { opacity: launchReady ? 0 : 1 });
 
       const tl = gsap.timeline({
         delay: 0.25,
         onComplete: () => {
           interactive = true;
-          
-          
-          
+
+
+
           if (shown >= 0) {
             announced = shown;
             meta.show(shown);
@@ -1302,10 +1302,10 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         { progress: 1, duration: 1.2, ease: "power2.out" },
       );
 
-      
-      
-      
-      
+
+
+
+
       tl.addPause(">", () => {
         whenReady(() => {
           gsap.delayedCall(params.holdAfter, () => {
@@ -1328,8 +1328,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         ease: "power2.inOut",
       });
 
-      
-      
+
+
       const spreadStart = tl.duration() - 0.15;
       tl.to(
         state,
@@ -1369,9 +1369,9 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         );
       }
 
-      
-      
-      
+
+
+
       if (params.textOut && splitText.fades.length) {
         const landed = Math.max(
           stageStart + params.spinDelay + params.spinTime,
@@ -1390,8 +1390,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         );
       }
 
-      
-      
+
+
       if (listEl) {
         tl.fromTo(
           listEl,
@@ -1412,8 +1412,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       tl = build();
     };
 
-    
-    
+
+
     splitText.build();
     styleMeta();
     if (playIntro) {
@@ -1428,7 +1428,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       setProjectReady(true);
     }
 
-    
+
     let gui;
 
     if (process.env.NODE_ENV === "development") {
@@ -1459,19 +1459,19 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
             },
           });
 
-          
+
           gui.hide();
         },
       );
     }
 
-    
+
     const start = performance.now();
     let prevT = start;
 
       renderer.setAnimationLoop(() => {
       const now = performance.now();
-      
+
       const dt = Math.min(0.05, (now - prevT) / 1000);
       prevT = now;
       uniforms.uTime.value = (now - start) * 0.001;
@@ -1480,49 +1480,49 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         state.spin += spinVel * dt;
         spinVel *= Math.pow(params.damping, dt * 60);
 
-        
-        
+
+
         let off = 0;
 
         if (params.snap) {
           const slot = TAU / Math.round(params.count);
-          
-          
+
+
           const decay = Math.max(0.01, -Math.log(params.damping) * 60);
 
-          
-          
-          
-          
-          
-          
+
+
+
+
+
+
           const engage = Math.max(params.snapFrom, decay * slot * 0.5);
-          
-          
+
+
           const rate = 4.8 / Math.max(0.05, params.snapTime);
 
           if (!settling && Math.abs(spinVel) < engage) {
-            
-            
-            
-            
+
+
+
+
             const coast = state.spin + spinVel / decay;
             const phase = params.seed * DEG - frontAngle;
             snapTo = Math.round((coast + phase) / slot) * slot - phase;
-            
-            
-            
-            
+
+
+
+
             snapCap = Math.max(Math.abs(spinVel), slot * 0.5 * rate);
             settling = true;
           }
 
           if (settling) {
             off = snapTo - state.spin;
-            
-            
-            
-            
+
+
+
+
             const aim = Math.max(-snapCap, Math.min(snapCap, off * rate));
             spinVel += (aim - spinVel) * clamp01(rate * dt);
           }
@@ -1530,8 +1530,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
           settling = false;
         }
 
-        
-        
+
+
         if (Math.abs(spinVel) < 0.0015 && Math.abs(off) < 0.0008) {
           spinVel = 0;
           state.spin += off;
@@ -1543,10 +1543,10 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       updatePointer(dt);
       layout(dt);
 
-      
-      
-      
-      
+
+
+
+
       if (
         interactive &&
         !dragging &&
@@ -1602,11 +1602,11 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
       mesh.material.dispose();
       uniforms.uAtlas.value?.dispose();
 
-      
-      
-      
-      
-      
+
+
+
+
+
       renderer.dispose();
       renderer.forceContextLoss();
       atlas.dispose?.();
@@ -1630,8 +1630,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
           ref={(el) => {
             itemsRef.current[i] = el;
           }}
-          
-          
+
+
           style={{ opacity: 0.2 }}
         >
           <button
@@ -1649,7 +1649,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
 
   return (
     <>
-      
+
 
 
       <div ref={containerRef} className="absolute inset-0 touch-none" />
@@ -1685,12 +1685,12 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         <span aria-hidden="true">↗</span>
       </a>
 
-      
+
 
       {typeof document !== "undefined" &&
         createPortal(projectList, document.body)}
 
-      
+
 
 
 
@@ -1701,8 +1701,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         { side: "left", justify: "flex-start" },
         { side: "right", justify: "flex-end" },
       ].map(({ side, justify }) => {
-        
-        
+
+
         const row = (
           <span className="flex items-baseline whitespace-nowrap">
             <span />
@@ -1724,8 +1724,8 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
                 metaRef.current[side].goo = el;
               }}
               className="absolute inset-0"
-              
-              
+
+
               style={{ willChange: "filter" }}
             >
               {[0, 1].map((i) => (
@@ -1754,7 +1754,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
         );
       })}
 
-      
+
       <div
         ref={loaderRef}
         aria-hidden="true"
@@ -1776,7 +1776,7 @@ export default function Carousel({ dark = true, playIntro = false, onReachEnd })
           </AnimatedHighlightText>
         ) : null}
       </div>
-      
+
 
 
 
