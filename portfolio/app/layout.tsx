@@ -2,8 +2,27 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Bilal Ahmed - Deep Learning & Research",
-  description: "Portfolio of Bilal Ahmed.",
+  metadataBase: new URL("https://bilal5.me"),
+  title: "Bilal Ahmed — ML/AI, Software Engineering & Design",
+  description:
+    "Portfolio of Bilal Ahmed covering ML/AI, software engineering, and thoughtful interface design.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Bilal Ahmed — ML/AI, Software Engineering & Design",
+    description:
+      "Portfolio of Bilal Ahmed covering ML/AI, software engineering, and thoughtful interface design.",
+    url: "/",
+    siteName: "Bilal Ahmed Portfolio",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Bilal Ahmed — ML/AI, Software Engineering & Design",
+    description:
+      "Portfolio of Bilal Ahmed covering ML/AI, software engineering, and thoughtful interface design.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
