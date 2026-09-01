@@ -28,8 +28,8 @@ export function createSplitText(group, params) {
     dispose();
 
     const size = params.textSize;
-    
-    
+
+
     const dpr = Math.min(window.devicePixelRatio, 2) * 2;
     const font = `${params.textWeight} ${size}px "${params.textFont}", ui-sans-serif, system-ui, sans-serif`;
 
@@ -42,7 +42,7 @@ export function createSplitText(group, params) {
     const totalW =
       advances.reduce((a, b) => a + b, 0) + tracking * (glyphs.length - 1);
 
-    
+
     const pad = size * 0.25;
     const cellH = size * 1.3 + pad * 2;
 
@@ -61,7 +61,7 @@ export function createSplitText(group, params) {
         ctx.font = font;
         ctx.textBaseline = "alphabetic";
         ctx.fillStyle = "#000";
-        ctx.fillText(ch, pad, pad + size); 
+        ctx.fillText(ch, pad, pad + size);
 
         const tex = new THREE.CanvasTexture(canvas);
         tex.colorSpace = THREE.NoColorSpace;
@@ -85,8 +85,8 @@ export function createSplitText(group, params) {
 
         const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), mat);
         mesh.scale.set(cellW, cellH, 1);
-        
-        
+
+
         mesh.position.set(x + adv / 2, 0, 0);
         mesh.renderOrder = 0;
         group.add(mesh);
