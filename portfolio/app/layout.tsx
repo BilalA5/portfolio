@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Bilal Ahmed — ML/AI, Software Engineering & Design",
     description:
       "Portfolio of Bilal Ahmed covering ML/AI, software engineering, and thoughtful interface design.",
