@@ -1,0 +1,4 @@
+{
+  "installCommand": "npm --prefix portfolio install",
+  "buildCommand": "npm --prefix portfolio run build"
+}
